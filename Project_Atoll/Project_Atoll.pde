@@ -7,17 +7,21 @@
 * 5/21/2019
 */
 
-
+//Imports
+import java.util.TreeSet;
 
 //Global Variables
 int gameMode;
 boolean[] keys = new boolean[128];
-
-
+Island world1 = new Island();
+Level test = new Level(0);
+Player chara;
 
 void setup()
 {
-  gameMode = 0;
+  gameMode = 2;
+  chara = new Player(new PVector(10,130));
+  size(600,600);
 }
 
 void draw()
@@ -51,22 +55,37 @@ void drawTitleScreen()
 
 void drawWorldMap()
 {
+  background(#2036A2);
+  world1.drawIsland();
 }
 
 void drawLevel()
 {
+  background(#70DDFC);
+  test.drawBlocks();
+  chara.setColideMap(test.map);
+  resolveInput();
+  chara.updatePlayer();
+  chara.drawPlayer();
+  
 }
 
 
 /*
 * input detection
 */
+public void resolveInput(){
+  if(keys[' ']) chara.jump();
+}
+
 void keyPressed()
 {
- keys[key] = true;
+ if(key < 129)
+   keys[key] = true;
 }
 
 void keyReleased()
 {
- keys[key] = false;
+ if(key < 129)
+   keys[key] = false;
 }

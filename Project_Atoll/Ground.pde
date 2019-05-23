@@ -3,15 +3,17 @@ public class Ground implements Block
   PVector location;
   int size;
   
-  public Ground(PVector location)
+  public Ground(PVector location1)
   {
-    location = this.location;
-    size = 10;
+    location = location1;
+    size = 50;
   }
 
   public void drawBlock()
   {
-    
+    noStroke();
+    fill(#74F262);
+    rect(location.x,location.y, size, size);
   }
 
   public boolean collidesWith(int x, int y)
