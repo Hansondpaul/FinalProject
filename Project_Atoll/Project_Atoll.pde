@@ -76,6 +76,8 @@ void drawLevel()
 */
 public void resolveInput(){
   if(keys[' ']) chara.jump();
+  if(keys['d']) chara.moveRight();
+  if(keys['a']) chara.moveLeft();
 }
 
 void keyPressed()

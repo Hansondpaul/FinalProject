@@ -31,8 +31,17 @@ public class Player implements Mob
   public void updatePlayer()
   {
     speed.y += 0.1; //increase the speed of the player or decelerate downward movement
-    if(isGrounded()) speed.y = 0; //reset the speed
-     
+    if(isGrounded())
+    {
+      speed.y = 0; //reset the speed
+      if(speed.x>0) speed.x -=0.5;
+      else if(speed.x<0) speed.x+=0.5;
+    }
+    else
+    {
+      if(speed.x>0) speed.x -=0.25;
+      else if(speed.x<0) speed.x+=0.25;
+    }
     location.x += speed.x;
     location.y += speed.y;
   }
@@ -41,7 +50,13 @@ public class Player implements Mob
     if(isGrounded()) speed.y -= 8;
   }
   
+  public void moveRight(){
+    if(speed.x<5) speed.x+= 1;
+  }
   
+  public void moveLeft(){
+    if(speed.x>-5) speed.x-=1;
+  }
   public boolean colidesWith(int x, int y)
   {
     return x>=location.x && x<=location.x+Xsize && y>=location.y && y<=location.y+Ysize;
