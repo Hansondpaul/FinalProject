@@ -30,7 +30,7 @@ public class Player implements Mob
   
   public void updatePlayer()
   {
-    speed.y += 0.1; //increase the speed of the player or decelerate downward movement
+    speed.y += 0.2; //increase the speed of the player or decelerate downward movement
     if(isGrounded())
     {
       speed.y = 0; //reset the speed
@@ -42,8 +42,11 @@ public class Player implements Mob
       if(speed.x>0) speed.x -=0.25;
       else if(speed.x<0) speed.x+=0.25;
     }
+    if(isWalled()) speed.x = 0;
+    isYClipped();
     location.x += speed.x;
     location.y += speed.y;
+    drawPlayer();
   }
   
   public void jump(){
@@ -55,8 +58,11 @@ public class Player implements Mob
   }
   
   public void moveLeft(){
-    if(speed.x>-5) speed.x-=1;
+    if(!isWalled())
+      if(speed.x>-5) speed.x-=1;
+    isXClipped();
   }
+  
   public boolean colidesWith(int x, int y)
   {
     return x>=location.x && x<=location.x+Xsize && y>=location.y && y<=location.y+Ysize;
@@ -67,8 +73,49 @@ public class Player implements Mob
     boolean result = false;
     for(Block[] row: map)
       for(Block b: row)
-        if(b != null && b.collidesWith((int)location.x+20, (int)location.y+80) && speed.y>=0) result = true;//if the player is moving down and is on ground level
+      {
+        if(b != null && b.collidesWith((int)location.x, (int)location.y+81) && speed.y>=0) result = true;
+        if(b != null && b.collidesWith((int)location.x+40, (int)location.y+81) && speed.y>=0) result = true;
+      }
+        //if the player is moving down and is on ground level return true
     return result;
   }
+  
+  public boolean isWalled()
+  {
+    boolean result = false;
+    for(Block[] row: map)
+      for(Block b: row)
+      {
+        if(b != null && b.collidesWith((int)location.x, (int)location.y+55)) result = true;
+        if(b != null && b.collidesWith((int)location.x+40, (int)location.y+55)) result = true;
+      }
+        //if the player is moving down and is on ground level return true
+    return result;
+  }
+  
+  public void isYClipped()
+  {
+    for(Block[] row: map)
+      for(Block b: row)
+        if(b != null)
+        {
+          if(b.collidesWith((int)location.x, (int)location.y+Ysize-1)) location.y -= 1;
+          if(b.collidesWith((int)location.x+Xsize, (int)location.y+Ysize-1)) location.y -= 1;
+      }
+  }
+  
+  public void isXClipped()
+  {
+    for(Block[] row: map)
+      for(Block b: row)
+        if(b != null)
+        {
+          if(b.collidesWith((int)location.x+1, (int)location.y+Ysize-1)) location.x += 1;
+          if(b.collidesWith((int)location.x+Xsize-1, (int)location.y+Ysize-1)) location.x += 1;
+      }
+  }
+  
+  
    
 }

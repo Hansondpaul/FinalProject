@@ -66,7 +66,6 @@ void drawLevel()
   chara.setColideMap(test.map);
   resolveInput();
   chara.updatePlayer();
-  chara.drawPlayer();
   
 }
 
