@@ -1,9 +1,9 @@
 public class Level{
    Block[][] map = {{null,null,null,null,null},
+                    {new Ground(new PVector(0,250)),null,null,null,null},
+                    {null,null,new Platform(new PVector(100,300)),null,null},
                     {null,null,null,null,null},
-                    {null,null,null,null,null},
-                    {null,null,null,null,null},
-                    {new Ground(new PVector(0,500)), new Ground(new PVector(50,550)), new Ground(new PVector(100,550)), new Ground(new PVector(150,550)), new Ground(new PVector(200,550))}};
+                    {new Ground(new PVector(0,500)), new Ground(new PVector(50,550)), new Ground(new PVector(100,500)), new Ground(new PVector(150,550)), new Ground(new PVector(200,500))}};
    private boolean cleared = false;
    private int levelTheme;
    
