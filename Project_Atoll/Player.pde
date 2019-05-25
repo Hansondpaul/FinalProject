@@ -76,7 +76,7 @@ public class Player implements Mob
   */
   public void jump()
   {
-    if(isGrounded) speed.y -= 7;
+    if(isGrounded) speed.y -= 10;
   }
   
   public void moveRight()
@@ -137,7 +137,7 @@ public class Player implements Mob
     boolean result2 = false;
     for(Block[] row: map)
       for(Block b: row)
-        if(b != null) 
+        if(b != null && !(b instanceof Platform)) 
           {
              if(b.collidesWith((int)location.x, (int)location.y+40)) result2 = true;
              if(b.collidesWith((int)location.x+40, (int)location.y+40)) result = true;
@@ -156,7 +156,7 @@ public class Player implements Mob
     boolean result = false;
     for(Block[] row: map)
       for(Block b: row)
-        if(b != null) 
+        if(b != null && !(b instanceof Platform)) 
           {
             if(b.collidesWith((int)location.x+1, (int)location.y) && speed.y<0) result = true;
             if(b.collidesWith((int)location.x+39, (int)location.y)&& speed.y<0) result = true;
@@ -177,8 +177,10 @@ public class Player implements Mob
   
   public void isXClipped(Block b)
   {
-    if(b.collidesWith((int)location.x+1, (int)location.y+Ysize-1)) location.x += 1;
-    if(b.collidesWith((int)location.x+Xsize-1, (int)location.y+Ysize-1)) location.x -= 1;
+    if(!(b instanceof Platform)){
+      if(b.collidesWith((int)location.x+1, (int)location.y+Ysize-1)) location.x += 1;
+      if(b.collidesWith((int)location.x+Xsize-1, (int)location.y+Ysize-1)) location.x -= 1;
+    }
   }
   
   
