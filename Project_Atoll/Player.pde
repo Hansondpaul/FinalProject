@@ -2,8 +2,7 @@ public class Player implements Mob
 {
   PVector location; //the location of the player
   PVector speed; //the players speed
-  private int Xsize;
-  private int Ysize;
+  PVector size;
   Block[][] map; //imported colision map
   private boolean isGrounded;
   private boolean isWalled;
@@ -11,7 +10,8 @@ public class Player implements Mob
   private boolean isBonked;
   
   public void setColideMap(Block[][] input) {map = input;}
-  public PVector getlocation(){return location;}
+  public PVector getLocation() {return location;}
+  public PVector getSpeed() {return speed;}
   
   /*
   *  constructor
@@ -20,8 +20,7 @@ public class Player implements Mob
   {
     location = Startinglocation;
     speed = new PVector(0,0);
-    Xsize = 40;
-    Ysize = 80;
+    size = new PVector(40,80);
     isGrounded = false;
     isWalled = false;
     isWalledLeft = false;
@@ -38,37 +37,40 @@ public class Player implements Mob
   
   public void updatePlayer()
   {
-    blockColision();
+    blockColision(); //check for colision with a block
+    
     speed.y += 0.2; //increase the speed of the player or decelerate downward movement
-    if(isGrounded)
+    if(isGrounded) //if the player is on the ground
     {
-      speed.y = 0; //reset the speed
-      if(speed.x>0) speed.x -=0.5;
+      speed.y = 0; //reset the Yspeed
+      if(speed.x>0) speed.x -=0.5;//then cause horizontal drag
       else if(speed.x<0) speed.x+=0.5;
     }
-    else
+    else //if they are in the air
     {
-      if(speed.x>0) speed.x -=0.25;
+      if(speed.x>0) speed.x -=0.25; //cause less horizontal drag
       else if(speed.x<0) speed.x+=0.25;
     }
     
-    if(isWalled)
+    if(isWalled)//if they are next to a wall to the right
     {
-      if(speed.x>0) speed.x -= speed.x;
+      if(speed.x>0) speed.x -= speed.x; //and moving toward the wall, stop them
     } 
-    if(isWalledLeft)
+    
+    if(isWalledLeft) //same for if they are next to a left wall
     {
-     if(speed.x<0) speed.x += abs(speed.x); 
+     if(speed.x<0) speed.x += abs(speed.x);  // and moving toward it, stop them.
     }
     
-    if(isBonked)
+    if(isBonked) //if they are hitting the bottom of a block
     {
-      speed.y = 0;
+      speed.y = 0; //stop them moving upward, they can only be bonked if they are moving up
     }
     
-    location.x += speed.x;
+    location.x += speed.x;// move the player
     location.y += speed.y;
-    drawPlayer();
+    
+    drawPlayer(); // draw the player to the screen
   }
   
   /*
@@ -76,19 +78,20 @@ public class Player implements Mob
   */
   public void jump()
   {
-    if(isGrounded) speed.y -= 10;
-  }
+    if(isGrounded) // if the player is on the ground
+    speed.y-=10; // increase the yspeed
+  } 
   
   public void moveRight()
   {
-    if(!isWalled)
-      if(speed.x<5) speed.x+= 1;
+    if(!isWalled) // if the player is not next to a wall to the right
+      if(speed.x<5) speed.x+= 1; // if they are not moving at max speed, increase speed
   }
   
   public void moveLeft()
   {
-    if(!isWalledLeft)
-      if(speed.x>-5) speed.x-=1;
+    if(!isWalledLeft) // if the player is not next to a wall to the right
+      if(speed.x>-5) speed.x-=1; // if they are not moving at max speed, increase speed
   }
   
   /*
@@ -96,7 +99,7 @@ public class Player implements Mob
   */
   public boolean colidesWith(int x, int y)
   {
-    return x>=location.x && x<=location.x+Xsize && y>=location.y && y<=location.y+Ysize;
+    return x>=location.x && x<=location.x+size.x && y>=location.y && y<=location.y+size.y;
   }
   
   public void blockColision()
@@ -105,8 +108,7 @@ public class Player implements Mob
       for(Block b: row)
         if(b != null) 
           {
-            isXClipped(b);
-            isYClipped(b);         
+            isClipped(b);         
           }
      isGrounded();
      isWalled();
@@ -137,8 +139,8 @@ public class Player implements Mob
     boolean result2 = false;
     for(Block[] row: map)
       for(Block b: row)
-        if(b != null && !(b instanceof Platform)) 
-          {
+        if(b != null && !(b instanceof Platform))  // for every non null and non platform block
+          {  // check to see if they are hitting a wall
              if(b.collidesWith((int)location.x, (int)location.y+40)) result2 = true;
              if(b.collidesWith((int)location.x+40, (int)location.y+40)) result = true;
              if(b.collidesWith((int)location.x, (int)location.y)) result2 = true;
@@ -146,7 +148,7 @@ public class Player implements Mob
              if(b.collidesWith((int)location.x, (int)location.y+79)) result2 = true;
              if(b.collidesWith((int)location.x+40, (int)location.y+79)) result = true;
           }
-    isWalled = result;
+    isWalled = result; // report the results
     isWalledLeft = result2;
     return result;
   }
@@ -156,8 +158,8 @@ public class Player implements Mob
     boolean result = false;
     for(Block[] row: map)
       for(Block b: row)
-        if(b != null && !(b instanceof Platform)) 
-          {
+        if(b != null && !(b instanceof Platform)) // for every non null and non platform block
+          { // check to see if they are hitting a block
             if(b.collidesWith((int)location.x+1, (int)location.y) && speed.y<0) result = true;
             if(b.collidesWith((int)location.x+39, (int)location.y)&& speed.y<0) result = true;
           }
@@ -169,20 +171,14 @@ public class Player implements Mob
   /*
   * Handleing for when a player clips into a block
   */
-  public void isYClipped(Block b)
+  public void isClipped(Block b)
   {
-    if(b.collidesWith((int)location.x+1, (int)location.y+Ysize-1)) location.y -= 1;
-    if(b.collidesWith((int)location.x+Xsize-1, (int)location.y+Ysize-1)) location.y -= 1;
-  }
-  
-  public void isXClipped(Block b)
-  {
+    if(b.collidesWith((int)location.x+1, (int)(location.y+size.y-1))) location.y -= 1;
+    if(b.collidesWith((int)(location.x+size.x-1), (int)(location.y+size.y-1))) location.y -= 1;
     if(!(b instanceof Platform)){
-      if(b.collidesWith((int)location.x+1, (int)location.y+Ysize-1)) location.x += 1;
-      if(b.collidesWith((int)location.x+Xsize-1, (int)location.y+Ysize-1)) location.x -= 1;
+      if(b.collidesWith((int)location.x+1, (int)(location.y+size.y-1))) location.x += 1;
+      if(b.collidesWith((int)(location.x+size.x-1), (int)(location.y+size.y)-1)) location.x -= 1;
     }
   }
-  
-  
    
 }

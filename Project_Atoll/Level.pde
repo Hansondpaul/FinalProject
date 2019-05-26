@@ -7,18 +7,32 @@ public class Level{
    private boolean cleared = false;
    private int levelTheme;
    
-   Level(int theme){
-     levelTheme = theme;
-   }
+   Level(int theme){levelTheme = theme;}
    
-   public boolean isCleared(){return cleared;}
-   public int getTheme(){return levelTheme;}
+   public boolean isCleared() {return cleared;}
+   public int getTheme() {return levelTheme;}
    
    public void drawBlocks()
    {
       for(Block[] row: map)
         for(Block b: row) 
-          if(b != null) b.drawBlock();
-      
-    }
+          if(b != null) b.drawBlock();      
+   }
+    
+   public void drawBackground()
+   {
+     switch(levelTheme){
+       case 0:
+       {
+         background(#70DDFC);
+         break;
+       }
+       case 1:
+       {
+         background(0);
+         break; 
+       }
+        
+     }
+   }
 }

@@ -1,4 +1,3 @@
-
 /*
 * Project Atoll
 * Written by Douglas Hanson and Nicholas Moran
@@ -14,7 +13,7 @@ import java.util.TreeSet;
 int gameMode;
 boolean[] keys = new boolean[128];
 Island world1 = new Island();
-Level test = new Level(0);
+Level test = new Level(1);
 Player chara;
 
 void setup()
@@ -61,7 +60,7 @@ void drawWorldMap()
 
 void drawLevel()
 {
-  background(#70DDFC);
+  test.drawBackground();
   test.drawBlocks();
   chara.setColideMap(test.map);
   resolveInput();
