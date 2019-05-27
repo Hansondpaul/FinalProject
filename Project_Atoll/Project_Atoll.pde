@@ -72,21 +72,6 @@ void drawLevel()
   chara.setColideMap(world1.world[0].map);
   resolveInput();
   chara.updatePlayer();
-  //background(#70DDFC);
-  //if(yes)
-  //for(Block[] x: world1.world[0].map){
-  //  println();
-  //  for(Block y:x)
-  //    print(y);
-  //}
-  //yes=false;
-  //world1.world[0].drawBlocks();
-  ////test.drawBlocks();
-  //chara.setColideMap(test.map);
-  //resolveInput();
-  //chara.updatePlayer();
-  //chara.drawPlayer();
-  
 }
 
 
