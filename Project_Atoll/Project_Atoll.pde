@@ -17,7 +17,6 @@ int gameMode;
 boolean[] keys = new boolean[128];
 Island world1;
 Player chara;
-boolean yes=true;
 Level test = new Level(1);
 
 void setup()
@@ -67,15 +66,7 @@ void drawWorldMap()
 
 void drawLevel()
 {
-  if(yes)
-  for(Block[] x: world1.world[0].map){
-    for(Block y:x)
-      print(y);
-    println();
-    yes=false;
-  }
-  showCordinates();
-        
+  showCordinates();    
   world1.world[0].drawBackground();
   world1.world[0].drawBlocks();
   chara.setColideMap(world1.world[0].map);
