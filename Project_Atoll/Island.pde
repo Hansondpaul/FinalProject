@@ -1,8 +1,8 @@
 public class Island{
-  TreeSet<Level> world;
+  Level[] world;
   
   public Island(){
-    world = new TreeSet<Level>();
+    world = new Level[6];
   }
   
   public void drawIsland(){
@@ -28,7 +28,38 @@ public class Island{
   /*
   * returns the requested level
   */
-  public Level getLevel(){
-    return null;
+  public Level getLevel(int num){
+    Level tempL = new Level(0);
+    tempL.map=loadMapData("map"+num);
+    return tempL;  
   }
+  
+  //Option 3 return 2d array with name of file inputted
+  Block[][] loadMapData(String name){
+    File temp = new File("F:\\"+name+".dat");
+    if(true){
+      try{
+        Scanner scan = new Scanner(temp);
+        String[] size = scan.nextLine().split("-");
+        Block[][] map = new Block[parseInt(size[0])][parseInt(size[1])];
+        while(scan.hasNext()){
+          size = scan.nextLine().split(" ");
+          for(String s : size){
+            String[] data = s.split("_");
+            switch(parseInt(data[2])){
+              case 0: map[parseInt(data[0])][parseInt(data[1])] = null; break;
+              case 1: map[parseInt(data[0])][parseInt(data[1])] = new Ground(new PVector(parseInt(data[0])*50,parseInt(data[1])*50)); break;
+              case 2: map[parseInt(data[0])][parseInt(data[1])] = new Platform(new PVector(parseInt(data[0])*50,parseInt(data[1])*50)); break;
+              default: map[parseInt(data[0])][parseInt(data[1])] = null; break;
+            }
+          }          
+        }scan.close(); return map; 
+      }catch(FileNotFoundException e){
+        println("File not found");
+      }catch(Exception e){
+        e.printStackTrace();
+      }
+    }return null;     
+  }
+    
 }
