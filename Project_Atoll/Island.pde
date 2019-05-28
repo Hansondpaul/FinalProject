@@ -36,7 +36,7 @@ public class Island{
   
   //Option 3 return 2d array with name of file inputted
   Block[][] loadMapData(String name){
-    File temp = new File("F:\\"+name+".dat");
+    File temp = new File("F:\\Project_Atoll\\data\\"+name+".dat");
     if(true){
       try{
         Scanner scan = new Scanner(temp);
