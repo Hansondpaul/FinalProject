@@ -3,14 +3,34 @@ public class Platform implements Block
   PVector location;
   int xSize;
   int ySize;
+  boolean revealed;
+  
+  public Platform(PVector location1, boolean shown)
+  {
+    location = location1;
+    xSize = 50;
+    ySize = 10;
+    revealed = shown;
+  }
   
   public Platform(PVector location1)
   {
     location = location1;
     xSize = 50;
     ySize = 10;
+    revealed = true;
   }
 
+  public void reveal()
+  {
+    revealed = true;
+  }
+  
+  public void hide()
+  {
+    revealed = false; 
+  }
+  
   public void drawBlock()
   {
     noStroke();

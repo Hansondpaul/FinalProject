@@ -124,7 +124,7 @@ public class Player implements Mob
     boolean result = false;
     for(Block[] row: map)
       for(Block b: row)
-        if(b != null) 
+        if(b != null && b.revealed) 
           {
             if(b.collidesWith((int)location.x+1, (int)location.y+80) && speed.y>=0) result = true;
             if(b.collidesWith((int)location.x+39, (int)location.y+81) && speed.y>=0) result = true;
@@ -139,7 +139,7 @@ public class Player implements Mob
     boolean result2 = false;
     for(Block[] row: map)
       for(Block b: row)
-        if(b != null && !(b instanceof Platform))  // for every non null and non platform block
+        if(b != null && !(b instanceof Platform) && b.revealed)  // for every non null and non platform block
           {  // check to see if they are hitting a wall
              if(b.collidesWith((int)location.x, (int)location.y+40)) result2 = true;
              if(b.collidesWith((int)location.x+40, (int)location.y+40)) result = true;
@@ -162,6 +162,10 @@ public class Player implements Mob
           { // check to see if they are hitting a block
             if(b.collidesWith((int)location.x+1, (int)location.y) && speed.y<0) result = true;
             if(b.collidesWith((int)location.x+39, (int)location.y)&& speed.y<0) result = true;
+            if(result&& !b.revealed)
+            {
+              b.reveal();
+            }
           }
     isBonked = result;
     return result;
