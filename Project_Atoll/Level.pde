@@ -13,10 +13,10 @@ public class Level{
    public int getTheme() {return levelTheme;}
    
    public void drawBlocks()
-   {
-      for(Block[] row: map)
-        for(Block b: row) 
-          if(b != null) b.drawBlock();      
+   {    
+     for(Block[] row: map)
+       for(Block b: row)
+         if(b != null) b.drawBlock(); 
    }
     
    public void drawBackground()

@@ -39,7 +39,9 @@ public class Player implements Mob
   {
     blockColision(); //check for colision with a block
     
-    speed.y += 0.2; //increase the speed of the player or decelerate downward movement
+    //speed.y=constrain(speed.y,-7,7);
+    
+    speed.y += 0.3; //increase the speed of the player or decelerate downward movement
     if(isGrounded) //if the player is on the ground
     {
       speed.y = 0; //reset the Yspeed
@@ -67,7 +69,7 @@ public class Player implements Mob
       speed.y = 0; //stop them moving upward, they can only be bonked if they are moving up
     }
     
-    location.x += speed.x;// move the player
+    //location.x += speed.x;// move the player
     location.y += speed.y;
     
     drawPlayer(); // draw the player to the screen
@@ -78,8 +80,11 @@ public class Player implements Mob
   */
   public void jump()
   {
-    if(isGrounded) // if the player is on the ground
-    speed.y-=10; // increase the yspeed
+    if(isGrounded)// if the player is on the ground
+      speed.y-=5; // increase the yspeed
+    if(speed.y<0)
+      speed.y-=.3;
+    speed.y=constrain(speed.y,-10,10);
   } 
   
   public void moveRight()
@@ -106,7 +111,7 @@ public class Player implements Mob
   {
     for(Block[] row: map)
       for(Block b: row)
-        if(b != null) 
+        if(b != null && b.revealed) 
           {
             isClipped(b);         
           }
@@ -124,7 +129,7 @@ public class Player implements Mob
     boolean result = false;
     for(Block[] row: map)
       for(Block b: row)
-        if(b != null && b.revealed) 
+        if(b != null) 
           {
             if(b.collidesWith((int)location.x+1, (int)location.y+80) && speed.y>=0) result = true;
             if(b.collidesWith((int)location.x+39, (int)location.y+81) && speed.y>=0) result = true;

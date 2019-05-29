@@ -15,19 +15,12 @@ public class Ground implements Block
   {
     location = location1;
     size = 50;
-    revealed = true;
   }
-  
-  public void reveal()
-  {
-    revealed = true;
-  }
-  
-  public void hide()
-  {
-    revealed = false; 
-  }
-  
+
+  public void reveal(){ revealed=true; }
+
+  public PVector getLocation() {return location;}
+
   public void drawBlock()
   {
     noStroke();

@@ -18,18 +18,11 @@ public class Platform implements Block
     location = location1;
     xSize = 50;
     ySize = 10;
-    revealed = true;
-  }
-
-  public void reveal()
-  {
-    revealed = true;
   }
   
-  public void hide()
-  {
-    revealed = false; 
-  }
+  public void reveal(){ revealed=true; }
+  
+  public PVector getLocation() {return location;}
   
   public void drawBlock()
   {
