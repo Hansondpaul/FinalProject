@@ -1,18 +1,29 @@
 public class Island{
   Level[] world;
-  
+  Map<Level,PVector> levelMarkers;
   public Island(){
-    world = new Level[6];
+    levelMarkers = new HashMap<Level,PVector>();
+    world = new Level[1];
+    world[0] = getLevel(0);
+    levelMarkers.put(world[0], new PVector(100,100));
+    
   }
   
-  public void drawIsland(){
+  public void drawIsland()
+  {
     fill(#c2b280);
     noStroke();
     ellipseMode(CENTER);
     ellipse(width/2, height/2, 450, 450);
     fill(#7ec850);
     ellipse(width/2, height/2, 400,400);
-    
+   
+    System.out.println(levelMarkers);
+    for(int level = 0; level < world.length; level++)
+    {
+      System.out.println(levelMarkers.get(world[level]));
+      drawLevelMarker((int)levelMarkers.get(world[level]).x, (int)levelMarkers.get(world[level]).y, world[level].isCleared());
+    }
     drawLevelMarker(width/2,height/2, false);
   }
   
