@@ -81,10 +81,10 @@ public class Player implements Mob
   public void jump()
   {
     if(isGrounded)// if the player is on the ground
-      speed.y-=5; // increase the yspeed
-    if(speed.y<0)
-      speed.y-=.3;
-    speed.y=constrain(speed.y,-10,10);
+      speed.y-=10; // increase the yspeed
+    //if(speed.y<0)
+    //  speed.y-=.3;
+    //speed.y=constrain(speed.y,-10,10);
   } 
   
   public void moveRight()
@@ -109,12 +109,6 @@ public class Player implements Mob
   
   public void blockColision()
   {
-    for(Block[] row: map)
-      for(Block b: row)
-        if(b != null && b.revealed) 
-          {
-            isClipped(b);         
-          }
      isGrounded();
      isWalled();
      isBonked();
@@ -131,8 +125,16 @@ public class Player implements Mob
       for(Block b: row)
         if(b != null) 
           {
-            if(b.collidesWith((int)location.x+1, (int)location.y+80) && speed.y>=0) result = true;
-            if(b.collidesWith((int)location.x+39, (int)location.y+81) && speed.y>=0) result = true;
+            if(b.collidesWith((int)location.x+1, (int)location.y+80) && speed.y>=0)
+            {
+              result = true;
+              location.y = b.getLocation().y-size.y;
+            }
+            if(b.collidesWith((int)location.x+39, (int)location.y+81) && speed.y>=0)
+            {
+              result = true;
+              if(location.y < b.getLocation().y) location.y = b.getLocation().y-size.y;
+            }
           }
     isGrounded = result;
     return result;
@@ -165,29 +167,23 @@ public class Player implements Mob
       for(Block b: row)
         if(b != null && !(b instanceof Platform)) // for every non null and non platform block
           { // check to see if they are hitting a block
-            if(b.collidesWith((int)location.x+1, (int)location.y) && speed.y<0) result = true;
-            if(b.collidesWith((int)location.x+39, (int)location.y)&& speed.y<0) result = true;
-            if(result&& !b.revealed)
+            if(b.collidesWith((int)location.x+1, (int)location.y) && speed.y<0)
+            {
+              result = true;
+              location.y = b.getLocation().y;
+            }
+            if(b.collidesWith((int)location.x+39, (int)location.y)&& speed.y<0)
+            {
+              location.y = b.getLocation().y;
+              result = true;
+            }
+            if(result&& !b.getReveal())
             {
               b.reveal();
             }
           }
     isBonked = result;
     return result;
-  }
-  
-  
-  /*
-  * Handleing for when a player clips into a block
-  */
-  public void isClipped(Block b)
-  {
-    if(b.collidesWith((int)location.x+1, (int)(location.y+size.y-1))) location.y -= 1;
-    if(b.collidesWith((int)(location.x+size.x-1), (int)(location.y+size.y-1))) location.y -= 1;
-    if(!(b instanceof Platform)){
-      if(b.collidesWith((int)location.x+1, (int)(location.y+size.y-1))) location.x += 1;
-      if(b.collidesWith((int)(location.x+size.x-1), (int)(location.y+size.y)-1)) location.x -= 1;
-    }
   }
    
 }
