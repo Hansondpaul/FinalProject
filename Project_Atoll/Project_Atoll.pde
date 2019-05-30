@@ -27,7 +27,7 @@ void setup()
   chara = new Player(new PVector(10,130));
   size(600,600);
   world1 = new Island();
-  world1.world[0]=world1.getLevel(0);
+  //world1.world[0]=world1.getLevel(0);
   
 }
 
