@@ -1,20 +1,35 @@
-public class Level{
-   Block[][] map = {{null,null,null,null,null},
-                    {null,null,null,null,null},
-                    {null,null,null,null,null},
-                    {null,null,null,null,null},
-                    {new Ground(new PVector(0,50)),new Ground(new PVector(50,50)),new Ground(new PVector(100,50)),new Ground(new PVector(150,50)),new Ground(new PVector(200,50))}};
-   boolean cleared = false;
+public class Level
+{
+   Placeable[][] map;
+   private boolean cleared = false;
+   private int levelTheme;
    
+   Level(int theme){levelTheme = theme;}
    
-   Level(int x, int y){
-   }
-
+   public boolean isCleared() {return cleared;}
+   public int getTheme() {return levelTheme;}
+   
    public void drawBlocks()
+   {    
+     for(Placeable[] row: map)
+       for(Placeable b: row)
+         if(b != null && b instanceof Placeable) b.drawBlock(); 
+   }
+    
+   public void drawBackground()
    {
-      for(Block[] row: map)
-        for(Block b: row) 
-          if(b != null) b.drawBlock();
-      
-    }
+     switch(levelTheme){
+       case 0:
+       {
+         background(#70DDFC);
+         break;
+       }
+       case 1:
+       {
+         background(0);
+         break; 
+       }
+        
+     }
+   }
 }
