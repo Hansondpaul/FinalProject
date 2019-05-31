@@ -3,9 +3,11 @@ public class Island{
   Map<Level,PVector> levelMarkers;
   public Island(){
     levelMarkers = new HashMap<Level,PVector>();
-    world = new Level[1];
+    world = new Level[2];
     world[0] = getLevel(0);
+    world[1] = getLevel(1);
     levelMarkers.put(world[0], new PVector(100,100));
+    levelMarkers.put(world[1], new PVector(width/2,height/2));
     
   }
   
@@ -18,10 +20,8 @@ public class Island{
     fill(#7ec850);
     ellipse(width/2, height/2, 400,400);
    
-    System.out.println(levelMarkers);
     for(int level = 0; level < world.length; level++)
     {
-      System.out.println(levelMarkers.get(world[level]));
       drawLevelMarker((int)levelMarkers.get(world[level]).x, (int)levelMarkers.get(world[level]).y, world[level].isCleared());
     }
     drawLevelMarker(width/2,height/2, false);
@@ -29,6 +29,8 @@ public class Island{
   
   private void drawLevelMarker(int x, int y, boolean complete){
     stroke(0);
+    if(overButton(x,y,20))
+      stroke(#FFFF00);
     strokeWeight(2);
     fill(#FF0000);
     if(complete) fill(#0000FF);
