@@ -18,7 +18,7 @@ boolean bucketFill=false, colUp=false, colDown=false, rowUp=false, rowDown=false
 PrintWriter output;
 ArrayList<Tile[][]> allMaps;
 void setup(){
-  size(600, 600);
+  size(800, 600);
   tiles = new ArrayList<ArrayList<Tile>>();
   for(int i=0; i<colCount; i++){
     tiles.add(i, new ArrayList<Tile>());
@@ -107,6 +107,9 @@ void showButtons(){//displays the buttons to interact with changing the map sett
   fill(70, 210, 30);
   rect(width-75, 346, 38, 38);
   text("=HP",width-33,366);
+  fill(32, 100, 210);
+  rect(width-75, 394, 38, 38);
+  text("=B",width-33,414);
 
 }
 
