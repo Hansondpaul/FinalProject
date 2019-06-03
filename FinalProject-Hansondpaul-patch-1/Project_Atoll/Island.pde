@@ -1,14 +1,30 @@
 public class Island
 {
   Level[] world;
+  Set<Level> keys; 
   Map<Level,PVector> levelMarkers;
   public Island(){
     levelMarkers = new HashMap<Level,PVector>();
-    world = new Level[2];
+    keys = levelMarkers.keySet();
+    keys=new HashSet<Level>();
+    world = new Level[3];
+    keys.add(getLevel(0));
+    keys.add(getLevel(1));
+    keys.add(getLevel(2));
     world[0] = getLevel(0);
     world[1] = getLevel(1);
-    levelMarkers.put(world[0], new PVector(100,100));
-    levelMarkers.put(world[1], new PVector(width/2,height/2));
+    world[2] = getLevel(2);
+    levelMarkers.put(world[0], new PVector(width/2,height/2));
+    levelMarkers.put(world[1], new PVector(width/2+50,height/2-50));
+    levelMarkers.put(world[2], new PVector(width/2+10,height/2-110));
+    //levelMarkers.put(world[3], new PVector(width/2+110,height/2-10));
+    //levelMarkers.put(world[4], new PVector(width/2-50,height/2+50));
+    //levelMarkers.put(world[5], new PVector(width/2-10,height/2+110));
+    //levelMarkers.put(world[6], new PVector(width/2-110,height/2+10));
+    
+    println(keys);
+
+    //keys.set(0, getLevel(0));
     
   }
   
@@ -50,7 +66,7 @@ public class Island
   
   //Option 3 return 2d array with name of file inputted
   Placeable[][] loadMapData(String name){
-    File temp = new File("/Users/779665/Desktop/FinalProject-Hansondpaul-patch-1/Project_Atoll/data/"+name+".dat");
+    File temp = new File("F:\\Project_Atoll\\data\\"+name+".dat");
     if(true){
       try{
         Scanner scan = new Scanner(temp);
