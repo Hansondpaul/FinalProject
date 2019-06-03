@@ -81,12 +81,11 @@ void drawTitleScreen()
     text(names[i],width/2,height/2+(i*75),200,50);
 
   if(mousePressed)  
-    if(overButton(200,275,200,50)) gameMode=1;
+    if(overButton(200,275,200,50)){ gameMode=1; delay(100); }
     if(overButton(200,350,200,50));
     if(overButton(200,425,200,50));
     if(overButton(200,600,200,50)); 
   }
-
 
 void drawWorldMap()
 {
@@ -111,6 +110,7 @@ void drawLevel()
   chara.updatePlayer();
   //updateDistance();
   moveScreen();
+  drawStats();
 }
 
 /*
@@ -139,12 +139,12 @@ void showCordinates(){
  //println(chara.getLocation().y+" "+chara.getSpeed().y);
 }
 
-void updateDistance(){
- for(Block[] row:world1.world[currentLevel].map)
-   for(Block b:row)
-     if(b!=null)
-       distanceFromPlayer=chara.getLocation().x-b.getLocation().x;
-}
+//void updateDistance(){
+// for(Block[] row:world1.world[currentLevel].map)
+//   for(Block b:row)
+//     if(b!=null)
+//       distanceFromPlayer=chara.getLocation().x-b.getLocation().x;
+//}
 
 void moveScreen(){ 
   //left
@@ -188,4 +188,12 @@ public boolean overButton(int x, int y,int s){
   if(dist<=s)
     return true;
   return false;
+}
+
+void drawStats(){
+  
+  fill(0);
+  textSize(20);
+  text("dummy: 00"/*+varible+*/,width-70,20);
+
 }
