@@ -7,27 +7,31 @@ public class Island
     levelMarkers = new HashMap<Level,PVector>();
     keys = levelMarkers.keySet();
     keys=new HashSet<Level>();
-    world = new Level[3];
+    world = new Level[7];
     keys.add(getLevel(0));
     keys.add(getLevel(1));
     keys.add(getLevel(2));
     world[0] = getLevel(0);
     world[1] = getLevel(1);
     world[2] = getLevel(2);
+    world[3] = getLevel(3);
+    world[4] = getLevel(4);
+    world[5] = getLevel(5);
+    world[6] = getLevel(6);
     levelMarkers.put(world[0], new PVector(width/2,height/2));
     levelMarkers.put(world[1], new PVector(width/2+50,height/2-50));
-    levelMarkers.put(world[2], new PVector(width/2+10,height/2-110));
-    //levelMarkers.put(world[3], new PVector(width/2+110,height/2-10));
-    //levelMarkers.put(world[4], new PVector(width/2-50,height/2+50));
-    //levelMarkers.put(world[5], new PVector(width/2-10,height/2+110));
-    //levelMarkers.put(world[6], new PVector(width/2-110,height/2+10));
+    levelMarkers.put(world[2], new PVector(width/2+25,height/2-125));
+    levelMarkers.put(world[3], new PVector(width/2+125,height/2-25));
+    levelMarkers.put(world[4], new PVector(width/2-50,height/2+50));
+    levelMarkers.put(world[5], new PVector(width/2-25,height/2+125));
+    levelMarkers.put(world[6], new PVector(width/2-125,height/2+25));
     
     println(keys);
 
     //keys.set(0, getLevel(0));
     
   }
-  
+    
   public void drawIsland()
   {
     fill(#c2b280);
@@ -97,4 +101,58 @@ public class Island
     }return null;     
   }
     
+    
+    public void save(){
+        File temp = new File("/Users/779665/Desktop/FinalProject-Hansondpaul-patch-1/Project_Atoll/data/state.dat");
+        PrintWriter recorder = createWriter(temp);
+        int checkCount = 0;
+        
+        for(Level l: world)
+        {
+         //if the level is cleared write 1 else 0
+         if(l.isCleared())
+         {
+           recorder.print("1");
+           checkCount++;
+         }
+         else
+           recorder.print("0");
+           
+         //for every block, if its a coin and is colected, write a 1 else 0
+         for(int i = 0; i < l.getMap()[0].length; i++)
+           for(int j = 0; i < l.getMap().length; i++)
+             if(l.getMap()[i][j] instanceof Coin)
+             {
+               if(!l.getMap()[i][j].getReveal()) recorder.print("1");
+               else 
+               {
+                 recorder.print("0");
+                 checkCount++;
+               }
+             }
+             
+          recorder.println("");
+        }//for every level
+        
+        recorder.print(binary(checkCount));
+        recorder.flush();
+    }
+    
+    public void load(){
+      File temp = new File("/Users/779665/Desktop/FinalProject-Hansondpaul-patch-1/Project_Atoll/data/state.dat");
+      try{
+      Scanner scan = new Scanner(temp);
+      String[] levels = new String[3];
+      for(int i = 0; i < levels.length; i++)
+      {
+        levels[i] = scan.nextLine();
+      }
+      
+      
+      scan.close();
+      }
+      catch(FileNotFoundException e){
+       System.out.println("Save File not found"); 
+      }
+    }
 }
