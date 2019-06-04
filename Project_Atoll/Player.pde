@@ -1,18 +1,24 @@
-public class Player implements Mob
+public class Player implements Placeable
 {
   PVector location; //the location of the player
   PVector speed; //the players speed
   PVector size;
-  Block[][] map; //imported colision map
+  Placeable[][] map; //imported colision map
   private boolean isGrounded;
   private boolean isWalled;
   private boolean isWalledLeft;
   private boolean isBonked;
+  private boolean revealed;
+  private int collected;
   
-  public void setColideMap(Block[][] input) {map = input;}
+  public void collect() {collected++;}
+  public void reveal() {}
+  public void setColideMap(Placeable[][] input) {map = input;}
   public PVector getLocation() {return location;}
   public PVector getSpeed() {return speed;}
-  
+  public PVector getSize() {return size;}
+  public boolean getReveal() {return revealed;}
+  public int getCollected() {return collected;}
   /*
   *  constructor
   */
@@ -25,14 +31,15 @@ public class Player implements Mob
     isWalled = false;
     isWalledLeft = false;
     isBonked = false;
-    map = new Block[0][0];
+    map = new Placeable[0][0];
   }
 
-  public void drawPlayer()
+  public void drawBlock()
   {
     stroke(0);
     fill(#FF0000);
-    rect(location.x,location.y,40,80);
+    rectMode(CORNER);
+    rect(location.x,location.y,size.x,size.y);
   }
   
   public void updatePlayer()
@@ -72,7 +79,7 @@ public class Player implements Mob
     //location.x += speed.x;// move the player
     location.y += speed.y;
     
-    drawPlayer(); // draw the player to the screen
+    drawBlock(); // draw the player to the screen
   }
   
   /*
@@ -81,10 +88,13 @@ public class Player implements Mob
   public void jump()
   {
     if(isGrounded)// if the player is on the ground
+    {
       speed.y-=10; // increase the yspeed
+    }
     //if(speed.y<0)
     //  speed.y-=.3;
     //speed.y=constrain(speed.y,-10,10);
+
   } 
   
   public void moveRight()
@@ -121,20 +131,24 @@ public class Player implements Mob
   {
     
     boolean result = false;
-    for(Block[] row: map)
-      for(Block b: row)
-        if(b != null) 
+    for(Placeable[] row: map)
+      for(Placeable b: row)
+        if(b != null && b.getReveal()) 
           {
-            if(b.collidesWith((int)location.x+1, (int)location.y+80) && speed.y>=0)
+            if(b.colidesWith((int)location.x+1, (int)(location.y+size.y+1)) && speed.y>=0)
             {
               result = true;
               location.y = b.getLocation().y-size.y;
             }
-            if(b.collidesWith((int)location.x+39, (int)location.y+81) && speed.y>=0)
+            if(b.colidesWith((int)location.x+39, (int)location.y+81) && speed.y>=0)
             {
               result = true;
               if(location.y < b.getLocation().y) location.y = b.getLocation().y-size.y;
             }
+            if((result) && b instanceof Coin){
+               result = false;
+               collected++;
+             }
           }
     isGrounded = result;
     return result;
@@ -144,17 +158,23 @@ public class Player implements Mob
   {
     boolean result = false;
     boolean result2 = false;
-    for(Block[] row: map)
-      for(Block b: row)
-        if(b != null && !(b instanceof Platform) && b.revealed)  // for every non null and non platform block
+    for(Placeable[] row: map)
+      for(Placeable b: row)
+        if(b != null && !(b instanceof Platform) && b.getReveal())  // for every non null and non platform block
           {  // check to see if they are hitting a wall
-             if(b.collidesWith((int)location.x, (int)location.y+40)) result2 = true;
-             if(b.collidesWith((int)location.x+40, (int)location.y+40)) result = true;
-             if(b.collidesWith((int)location.x, (int)location.y)) result2 = true;
-             if(b.collidesWith((int)location.x+40, (int)location.y)) result = true;
-             if(b.collidesWith((int)location.x, (int)location.y+79)) result2 = true;
-             if(b.collidesWith((int)location.x+40, (int)location.y+79)) result = true;
+             if(b.colidesWith((int)location.x, (int)location.y+40)) result2 = true;
+             if(b.colidesWith((int)location.x+40, (int)location.y+40)) result = true;
+             if(b.colidesWith((int)location.x, (int)location.y)) result2 = true;
+             if(b.colidesWith((int)location.x+40, (int)location.y)) result = true;
+             if(b.colidesWith((int)location.x, (int)location.y+79)) result2 = true;
+             if(b.colidesWith((int)location.x+40, (int)location.y+79)) result = true;
+             if((result || result2) && b instanceof Coin){
+               result = false;
+               result2 = false;
+               collected++;
+             }
           }
+
     isWalled = result; // report the results
     isWalledLeft = result2;
     return result;
@@ -163,24 +183,28 @@ public class Player implements Mob
   public boolean isBonked()
   {
     boolean result = false;
-    for(Block[] row: map)
-      for(Block b: row)
-        if(b != null && !(b instanceof Platform)) // for every non null and non platform block
+    for(Placeable[] row: map)
+      for(Placeable b: row)
+        if(b != null && !(b instanceof Platform) && !(b instanceof Coin && !(b.getReveal()) )) // for every non null and non platform block
           { // check to see if they are hitting a block
-            if(b.collidesWith((int)location.x+1, (int)location.y) && speed.y<0)
+            if(b.colidesWith((int)location.x+1, (int)location.y) && speed.y<0)
             {
               result = true;
               location.y = b.getLocation().y;
             }
-            if(b.collidesWith((int)location.x+39, (int)location.y)&& speed.y<0)
+            if(b.colidesWith((int)location.x+39, (int)location.y)&& speed.y<0)
             {
               location.y = b.getLocation().y;
               result = true;
             }
-            if(result&& !b.getReveal())
+            if(result && !b.getReveal() && !(b instanceof Coin))
             {
               b.reveal();
             }
+            if(result && b instanceof Coin){
+               result = false;
+               collected++;
+             }
           }
     isBonked = result;
     return result;

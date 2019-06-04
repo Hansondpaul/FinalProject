@@ -1,38 +1,38 @@
-public class Platform implements Block
+public class Platform implements Placeable
 {
-  PVector location;
-  int xSize;
-  int ySize;
-  boolean revealed;
+  private PVector location;
+  private PVector size;
+  private boolean revealed;
   
   public Platform(PVector location1, boolean shown)
   {
     location = location1;
-    xSize = 50;
-    ySize = 10;
+    size = new PVector(50,10);
     revealed = shown;
   }
   
   public Platform(PVector location1)
   {
     location = location1;
-    xSize = 50;
-    ySize = 10;
+    size = new PVector(50,10);
+    revealed = true;
   }
   
-  public void reveal(){ revealed=true; }
+  public void reveal(){revealed=true;}
   
   public PVector getLocation() {return location;}
+  public boolean getReveal() {return revealed;}
+  public PVector getSize() {return size;}
   
   public void drawBlock()
   {
     noStroke();
     fill(#B4B4B4);
-    rect(location.x,location.y, xSize, ySize);
+    rect(location.x,location.y, size.x, size.y);
   }
 
-  public boolean collidesWith(int x, int y)
+  public boolean colidesWith(int x, int y)
   {
-    return x>=location.x && x<=location.x+xSize && y>=location.y && y<=location.y+ySize;
+    return x>=location.x && x<=location.x+size.x && y>=location.y && y<=location.y+size.y;
   }
 }

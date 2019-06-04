@@ -13,31 +13,38 @@ import java.io.FileNotFoundException;
 import java.util.Scanner;
 import java.util.Map;
 import java.util.Set;
-import java.util.List;
+import java.util.HashSet;
+
 
 //Global Variables
 int gameMode;
 int currentLevel;
 float distanceFromPlayer;
-boolean[] keys = new boolean[128];
+boolean pause=false;
+boolean[] keys;
 Island world1;
 Player chara;
-Level test = new Level(1);
 
 void setup()
 {
   //frameRate(10);
+  System.out.println("initializing:");
   gameMode = 0;
+  System.out.println("gamemode");
+  keys = new boolean[128];
+  System.out.println("input");
   chara = new Player(new PVector(10,130));
+  System.out.println("player");
   size(600,600);
+  System.out.println("window");
   world1 = new Island();
- // world1.world[0]=world1.getLevel(0);
+  System.out.println("levels");
   
 }
 
 void draw()
 {
-  showCordinates();
+  println(pause);
   switch(gameMode){
     case 0:{
       drawTitleScreen();
@@ -87,6 +94,7 @@ void drawTitleScreen()
     if(overButton(200,600,200,50)); 
   }
 
+
 void drawWorldMap()
 {
   background(#2036A2);
@@ -96,12 +104,19 @@ void drawWorldMap()
       if(overButton((int)world1.levelMarkers.get(world1.world[level]).x,(int)world1.levelMarkers.get(world1.world[level]).y,20)){
         currentLevel=level;
         gameMode=2;
+        System.out.println("Switching gamemode to 2");
       }
 }
 
 
 void drawLevel()
 {
+  if(pause)
+  {
+    
+  }
+  else
+  {
   showCordinates();
   world1.world[currentLevel].drawBackground();
   world1.world[currentLevel].drawBlocks();
@@ -111,6 +126,8 @@ void drawLevel()
   //updateDistance();
   moveScreen();
   drawStats();
+  
+  }
 }
 
 /*
@@ -120,6 +137,7 @@ public void resolveInput(){
   if(keys[' ']) chara.jump();
   if(keys['d']) chara.moveRight();
   if(keys['a']) chara.moveLeft();
+  if(keys['p']) pause=pause?false:true;
 }
 
 void keyPressed()
@@ -139,27 +157,27 @@ void showCordinates(){
  //println(chara.getLocation().y+" "+chara.getSpeed().y);
 }
 
-//void updateDistance(){
-// for(Block[] row:world1.world[currentLevel].map)
-//   for(Block b:row)
-//     if(b!=null)
-//       distanceFromPlayer=chara.getLocation().x-b.getLocation().x;
-//}
+void updateDistance(){
+ for(Placeable[] row:world1.world[currentLevel].map)
+   for(Placeable b:row)
+     if(b!=null)
+       distanceFromPlayer=chara.getLocation().x-b.getLocation().x;
+}
 
 void moveScreen(){ 
   //left
   //println(chara.speed.y);
   if(chara.getSpeed().x<0)
-    for(Block[] row:world1.world[currentLevel].map)
-      for(Block b:row)
+    for(Placeable[] row:world1.world[currentLevel].map)
+      for(Placeable b:row)
         if(b!=null){
           b.getLocation().x=b.getLocation().x-chara.getSpeed().x;     
           chara.getLocation().x=(width/2);
         }
   //right
   if(chara.getSpeed().x>0)
-    for(Block[] row:world1.world[currentLevel].map)
-      for(Block b:row)
+    for(Placeable[] row:world1.world[currentLevel].map)
+      for(Placeable b:row)
         if(b!=null){
           b.getLocation().x=b.getLocation().x-chara.getSpeed().x;
           chara.getLocation().x=(width/2);
