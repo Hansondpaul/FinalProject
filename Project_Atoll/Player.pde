@@ -22,6 +22,7 @@ public class Player implements Placeable
   public int getCollected() {return collected;}
   public boolean getCleared() {return cleared;}
   public boolean getLevelEnd() {return false;}
+  public void setCleared(boolean b) {cleared = b;}
   /*
   *  constructor
   */
@@ -136,7 +137,9 @@ public class Player implements Placeable
     
     boolean result = false;
     for(Placeable[] row: map)
+    {
       for(Placeable b: row)
+      {
         if(b != null && b.getReveal()) 
           {
             if(b.colidesWith((int)location.x+1, (int)(location.y+size.y+1)) && speed.y>=0)
@@ -149,12 +152,15 @@ public class Player implements Placeable
               result = true;
               if(location.y < b.getLocation().y) location.y = b.getLocation().y-size.y;
             }
-            if((result) && b instanceof Coin){
+            if((result) && b instanceof Coin)
+            {
                result = false;
                collected++;
-             }
-             if((result) && b.getLevelEnd()) cleared = true;
+            }
+            
           }
+      }
+    }
     isGrounded = result;
     return result;
   }
@@ -215,4 +221,7 @@ public class Player implements Placeable
     return result;
   }
    
+   public void isCleared(){
+     if(isGrounded 
+   }
 }
