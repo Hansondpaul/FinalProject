@@ -131,7 +131,6 @@ void drawLevel()
   {
     world1.world[currentLevel].cleared(); 
     gameMode = 1;
-    world1.save();
   }
   
   }

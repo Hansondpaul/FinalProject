@@ -10,7 +10,7 @@ public class Coin implements Placeable // replace placeable with block if you ar
   public PVector getLocation() {return location;}
   public boolean getReveal() {return revealed;}
   public int getOrder() {return order;}
-  
+  public boolean getLevelEnd() {return false;}
   public Coin(PVector firstLocation, int order)
   {
     location = firstLocation;
