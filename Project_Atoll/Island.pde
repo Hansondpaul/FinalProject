@@ -92,6 +92,7 @@ public class Island
               case 4: map[parseInt(data[0])][parseInt(data[1])] = new Platform(new PVector(parseInt(data[0])*50,parseInt(data[1])*50),false); break;
               case 5: map[parseInt(data[0])][parseInt(data[1])] = new Box(new PVector(parseInt(data[0])*50,parseInt(data[1])*50)); break;
               case 6: map[parseInt(data[0])][parseInt(data[1])] = new Coin(new PVector(parseInt(data[0])*50,parseInt(data[1])*50),coinCounter); coinCounter++; break;
+              case 7: map[parseInt(data[0])][parseInt(data[1])] = new Ground(new PVector(parseInt(data[0])*50,parseInt(data[1])*50), true, true); coinCounter++; break;
               default: map[parseInt(data[0])][parseInt(data[1])] = null; break;
             }
           }          

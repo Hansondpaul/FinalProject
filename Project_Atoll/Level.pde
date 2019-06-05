@@ -10,7 +10,7 @@ public class Level
    
    public boolean isCleared() {return cleared;}
    public int getTheme() {return levelTheme;}
-   
+   public void cleared() {cleared = true;}
    public void drawBlocks()
    {    
      for(Placeable[] row: map)

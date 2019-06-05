@@ -24,6 +24,7 @@ public class Box implements Placeable
   
   public void reveal() {}
   
+  public boolean getLevelEnd(){return false;}
   public PVector getLocation() {return location;}
   public boolean getReveal() {return reveal;}
   public PVector getSize() {return size;}

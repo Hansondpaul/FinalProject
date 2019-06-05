@@ -3,6 +3,7 @@ public class Ground implements Placeable
   PVector location;
   int size;
   boolean revealed;
+  boolean levelEnd;
   
   public Ground(PVector location1, boolean shown)
   {
@@ -11,6 +12,13 @@ public class Ground implements Placeable
     revealed = shown;
   }
   
+  public Ground(PVector location1, boolean shown, boolean end)
+  {
+    location = location1;
+    size = 50;
+    revealed = shown;
+    levelEnd = end;
+  }
   public Ground(PVector location1)
   {
     location = location1;
@@ -19,7 +27,8 @@ public class Ground implements Placeable
   }
 
   public void reveal() {revealed=true;}
-
+  
+  public boolean getLevelEnd() {return levelEnd;}
   public PVector getLocation() {return location;}
   public boolean getReveal() {return revealed;}
   public PVector getSize() {return new PVector(size, size);}

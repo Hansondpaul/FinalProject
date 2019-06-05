@@ -20,6 +20,7 @@ public class Platform implements Placeable
   
   public void reveal(){revealed=true;}
   
+  public boolean getLevelEnd() {return false;}
   public PVector getLocation() {return location;}
   public boolean getReveal() {return revealed;}
   public PVector getSize() {return size;}

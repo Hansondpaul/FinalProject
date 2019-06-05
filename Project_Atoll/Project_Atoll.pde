@@ -127,6 +127,13 @@ void drawLevel()
   moveScreen();
   drawStats();
   
+  if(chara.getCleared())
+  {
+    world1.world[currentLevel].cleared(); 
+    gameMode = 1;
+    world1.save();
+  }
+  
   }
 }
 

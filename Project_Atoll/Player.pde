@@ -9,6 +9,7 @@ public class Player implements Placeable
   private boolean isWalledLeft;
   private boolean isBonked;
   private boolean revealed;
+  private boolean cleared;
   private int collected;
   
   public void collect() {collected++;}
@@ -19,6 +20,8 @@ public class Player implements Placeable
   public PVector getSize() {return size;}
   public boolean getReveal() {return revealed;}
   public int getCollected() {return collected;}
+  public boolean getCleared() {return cleared;}
+  public boolean getLevelEnd() {return false;}
   /*
   *  constructor
   */
@@ -32,6 +35,7 @@ public class Player implements Placeable
     isWalledLeft = false;
     isBonked = false;
     map = new Placeable[0][0];
+    cleared = false;
   }
 
   public void drawBlock()
@@ -149,6 +153,7 @@ public class Player implements Placeable
                result = false;
                collected++;
              }
+             if((result) && b.getLevelEnd()) cleared = true;
           }
     isGrounded = result;
     return result;
