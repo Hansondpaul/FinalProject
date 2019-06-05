@@ -2,8 +2,11 @@ public class Island
 {
   Level[] world;
   Set<Level> keys; 
+
+  
   Map<Level,PVector> levelMarkers;
   public Island(){
+
     levelMarkers = new HashMap<Level,PVector>();
     keys = levelMarkers.keySet();
     keys=new HashSet<Level>();
@@ -70,7 +73,7 @@ public class Island
   
   //Option 3 return 2d array with name of file inputted
   Placeable[][] loadMapData(String name){
-    File temp = new File("F:\\Project_Atoll\\data\\"+name+".dat");
+    File temp = new File(dataPath(name+".dat"));
     if(true){
       try{
         Scanner scan = new Scanner(temp);
@@ -103,7 +106,7 @@ public class Island
     
     
     public void save(){
-        File temp = new File("/Users/779665/Desktop/FinalProject-Hansondpaul-patch-1/Project_Atoll/data/state.dat");
+        File temp = new File(dataPath("state.dat"));
         PrintWriter recorder = createWriter(temp);
         int checkCount = 0;
         
@@ -139,7 +142,7 @@ public class Island
     }
     
     public void load(){
-      File temp = new File("/Users/779665/Desktop/FinalProject-Hansondpaul-patch-1/Project_Atoll/data/state.dat");
+      File temp = new File(dataPath("state.dat"));
       try{
       Scanner scan = new Scanner(temp);
       String[] levels = new String[3];

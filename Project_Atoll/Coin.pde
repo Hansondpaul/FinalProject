@@ -9,6 +9,7 @@ public class Coin implements Placeable // replace placeable with block if you ar
   public PVector getSize() {return size;}
   public PVector getLocation() {return location;}
   public boolean getReveal() {return revealed;}
+  public int getOrder() {return order;}
   
   public Coin(PVector firstLocation, int order)
   {
@@ -34,7 +35,7 @@ public class Coin implements Placeable // replace placeable with block if you ar
   
   public boolean colidesWith(int x, int y)
   {
-    boolean result = distance(x,y,(int)getLocation().x, (int)getLocation().y) < getSize().x;
+    boolean result = distance(x,y,(int)getLocation().x, (int)getLocation().y) < getSize().x/2;
     if( result == true ) revealed = false;
     return result;
   }
