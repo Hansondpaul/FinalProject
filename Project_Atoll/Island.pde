@@ -14,13 +14,8 @@ public class Island
     keys.add(getLevel(0));
     keys.add(getLevel(1));
     keys.add(getLevel(2));
-    world[0] = getLevel(0);
-    world[1] = getLevel(1);
-    world[2] = getLevel(2);
-    world[3] = getLevel(3);
-    world[4] = getLevel(4);
-    world[5] = getLevel(5);
-    world[6] = getLevel(6);
+    for(int i=0;i<world.length;i++)
+      world[i]=getLevel(i);
     levelMarkers.put(world[0], new PVector(width/2,height/2));
     levelMarkers.put(world[1], new PVector(width/2+50,height/2-50));
     levelMarkers.put(world[2], new PVector(width/2+25,height/2-125));
@@ -53,8 +48,10 @@ public class Island
   
   private void drawLevelMarker(int x, int y, boolean complete){
     stroke(0);
-    if(overButton(x,y,20))
+    if(overButton(x,y,20)){
       stroke(#FFFF00);
+     // println(levelMarkers.get(getLevel(0)));
+    }
     strokeWeight(2);
     fill(#FF0000);
     if(complete) fill(#0000FF);
@@ -92,7 +89,6 @@ public class Island
               case 4: map[parseInt(data[0])][parseInt(data[1])] = new Platform(new PVector(parseInt(data[0])*50,parseInt(data[1])*50),false); break;
               case 5: map[parseInt(data[0])][parseInt(data[1])] = new Box(new PVector(parseInt(data[0])*50,parseInt(data[1])*50)); break;
               case 6: map[parseInt(data[0])][parseInt(data[1])] = new Coin(new PVector(parseInt(data[0])*50,parseInt(data[1])*50),coinCounter); coinCounter++; break;
-              case 7: map[parseInt(data[0])][parseInt(data[1])] = new Ground(new PVector(parseInt(data[0])*50,parseInt(data[1])*50), true, true); coinCounter++; break;
               default: map[parseInt(data[0])][parseInt(data[1])] = null; break;
             }
           }          
