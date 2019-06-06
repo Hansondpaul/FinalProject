@@ -11,6 +11,11 @@ public class Player implements Placeable
   private boolean revealed;
   private boolean cleared;
   private int collected;
+  private int health;
+  private PShape heart;
+
+  public int getHealth() {return health;}
+  public void addhealth(int i) {health += i;}
   
   public void collect() {collected++;}
   public void reveal() {}
@@ -37,6 +42,8 @@ public class Player implements Placeable
     isBonked = false;
     map = new Placeable[0][0];
     cleared = false;
+    health = 3;
+    heart = loadShape("heart.svg");
   }
 
   public void drawBlock()
@@ -45,8 +52,22 @@ public class Player implements Placeable
     fill(#FF0000);
     rectMode(CORNER);
     rect(location.x,location.y,size.x,size.y);
+    drawHealth();
   }
   
+  public void drawHealth(){
+    int x = 50; int y = 50;
+    for(int i = 0; i < health; i++){
+      drawHeart(x,y);
+      x += 70;
+    }
+    
+  }
+  public void drawHeart(int x, int y)
+  {
+    shape(heart, x, y, 50, 50);
+  }
+
   public void updatePlayer()
   {
     blockColision(); //check for colision with a block
@@ -127,6 +148,7 @@ public class Player implements Placeable
      isGrounded();
      isWalled();
      isBonked();
+     cleared = isCleared();
   }
   
   /*
@@ -221,7 +243,29 @@ public class Player implements Placeable
     return result;
   }
    
-   public void isCleared(){
-     if(isGrounded 
+  public Placeable groundedOnLeft()
+  {
+    for(Placeable[] row: map)
+      for(Placeable b: row)
+        if(b != null && b.getReveal())
+          if(b.colidesWith((int)location.x+1, (int)(location.y+size.y+1)) && speed.y>=0)
+            return b;
+    return null;
+  }
+  
+  public Placeable groundedOnRight()
+  {
+    for(Placeable[] row: map)
+      for(Placeable b: row)
+        if(b != null && b.getReveal())
+          if(b.colidesWith((int)location.x+39, (int)location.y+81) && speed.y>=0)
+            return b;
+    return null;
+  }
+  
+   public boolean isCleared(){
+     if(groundedOnLeft() != null && groundedOnLeft().getLevelEnd()) return true;
+     if(groundedOnRight() != null && groundedOnRight().getLevelEnd()) return true;
+     return false;
    }
 }

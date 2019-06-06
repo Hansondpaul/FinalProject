@@ -33,7 +33,7 @@ void setup()
   System.out.println("gamemode");
   keys = new boolean[128];
   System.out.println("input");
-  chara = new Player(new PVector(10,130));
+  chara = new Player(new PVector(width/2,450));
   System.out.println("player");
   size(600,600);
   System.out.println("window");

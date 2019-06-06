@@ -38,7 +38,10 @@ public class Ground implements Placeable
   public void drawBlock()
   {
     noStroke();
+    if(levelEnd){
     fill(#74F262);
+    }
+    else fill(#00FF00);
     rect(location.x,location.y, size, size);
   }
 
