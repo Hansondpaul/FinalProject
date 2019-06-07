@@ -119,17 +119,24 @@ void drawWorldMap()
 
 void drawLevel()
 {
+  boolean first = true;
   if (pause)
   {
   } else
   {
+    if(first)
+    {
     chara.setLocation(world1.world[currentLevel].getLocation());
+    first = false;
+    }
+    
     showCordinates();
     world1.world[currentLevel].drawBackground();
     world1.world[currentLevel].drawBlocks();
     chara.setColideMap(world1.world[currentLevel].map);
     resolveInput();
     chara.updatePlayer();
+    world1.world[currentLevel].map = chara.getMap();
     //updateDistance();
     moveScreen();
     drawStats();
@@ -139,6 +146,7 @@ void drawLevel()
       world1.world[currentLevel].cleared(); 
       gameMode = 1;
       chara.setCleared(false);
+      first = true;
     }
   }
 }
@@ -225,5 +233,5 @@ void drawStats() {
 
   fill(0);
   textSize(20);
-   text("dummy: 00"/*+varible+*/  , width-70, 20);
+  //text("dummy: 00"/*+varible+*/  , width-70, 20);
 }

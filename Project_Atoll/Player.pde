@@ -1,6 +1,6 @@
 public class Player implements Placeable
 {
-  PVector location; //the location of the player
+  PVector location = new PVector(0,0); //the location of the player
   PVector speed; //the players speed
   PVector size;
   Placeable[][] map; //imported colision map
@@ -20,6 +20,7 @@ public class Player implements Placeable
   public void collect() {collected++;}
   public void reveal() {}
   public void setColideMap(Placeable[][] input) {map = input;}
+  
   public PVector getLocation() {return location;}
   public PVector getSpeed() {return speed;}
   public PVector getSize() {return size;}
@@ -29,6 +30,7 @@ public class Player implements Placeable
   public boolean getLevelEnd() {return false;}
   public void setCleared(boolean b) {cleared = b;}
   public void setLocation(PVector l) {location = l;}
+  public Placeable[][] getMap() {return map;}
   /*
   *  constructor
   */
@@ -44,6 +46,7 @@ public class Player implements Placeable
     cleared = false;
     health = 3;
     heart = loadShape("heart.svg");
+    
   }
 
   public void drawBlock()
@@ -158,33 +161,38 @@ public class Player implements Placeable
   {
     
     boolean result = false;
-    for(Placeable[] row: map)
+    for(int i = 0; i < map.length; i++)
     {
-      for(Placeable b: row)
+      for(int j = 0; j <map[i].length; j++)
       {
-        if(b != null && b.getReveal()) 
+        if(map[i][j] != null && map[i][j].getReveal()) 
           {
-            if(b.colidesWith((int)location.x+1, (int)(location.y+size.y+1)) && speed.y>=0)
+            if(map[i][j].colidesWith((int)location.x+1, (int)(location.y+size.y+1)) && speed.y>=0)
             {
               result = true;
-              location.y = b.getLocation().y-size.y;
+              location.y = map[i][j].getLocation().y-size.y;
             }
-            if(b.colidesWith((int)location.x+39, (int)location.y+81) && speed.y>=0)
+            if(map[i][j].colidesWith((int)location.x+39, (int)location.y+81) && speed.y>=0)
             {
               result = true;
-              if(location.y < b.getLocation().y) location.y = b.getLocation().y-size.y;
+              if(location.y < map[i][j].getLocation().y) location.y = map[i][j].getLocation().y-size.y;
             }
-            if((result) && b instanceof Coin)
-            {
-               result = false;
-               collected++;
-            }
+            map[i][j] = collectCoin(map[i][j]);
             
           }
       }
     }
     isGrounded = result;
     return result;
+  }
+  
+  public Placeable collectCoin(Placeable p)
+  {
+    if(p instanceof Coin && p.colidesWith((int)location.x,(int)location.y)){
+      collected++;
+      return null;
+    }
+    return p;
   }
   
   public boolean isWalled() 
@@ -201,12 +209,8 @@ public class Player implements Placeable
              if(b.colidesWith((int)location.x+40, (int)location.y)) result = true;
              if(b.colidesWith((int)location.x, (int)location.y+79)) result2 = true;
              if(b.colidesWith((int)location.x+40, (int)location.y+79)) result = true;
-             if((result || result2) && b instanceof Coin){
-               result = false;
-               result2 = false;
-               collected++;
+             b = collectCoin(b);
              }
-          }
 
     isWalled = result; // report the results
     isWalledLeft = result2;
@@ -218,7 +222,7 @@ public class Player implements Placeable
     boolean result = false;
     for(Placeable[] row: map)
       for(Placeable b: row)
-        if(b != null && !(b instanceof Platform) && !(b instanceof Coin && !(b.getReveal()) )) // for every non null and non platform block
+        if(b != null && !(b instanceof Platform && b.getReveal()) && !(b instanceof Coin && !(b.getReveal()) )) // for every non null and non platform block
           { // check to see if they are hitting a block
             if(b.colidesWith((int)location.x+1, (int)location.y) && speed.y<0)
             {

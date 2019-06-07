@@ -27,9 +27,11 @@ public class Platform implements Placeable
   
   public void drawBlock()
   {
-    noStroke();
-    fill(#B4B4B4);
-    rect(location.x,location.y, size.x, size.y);
+    if(revealed){
+      noStroke();
+      fill(#B4B4B4);
+      rect(location.x,location.y, size.x, size.y);
+    }
   }
 
   public boolean colidesWith(int x, int y)
