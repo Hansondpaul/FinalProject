@@ -28,12 +28,12 @@ public class Player implements Placeable
   public boolean getCleared() {return cleared;}
   public boolean getLevelEnd() {return false;}
   public void setCleared(boolean b) {cleared = b;}
+  public void setLocation(PVector l) {location = l;}
   /*
   *  constructor
   */
-  public Player(PVector Startinglocation)
+  public Player()
   {
-    location = Startinglocation;
     speed = new PVector(0,0);
     size = new PVector(40,80);
     isGrounded = false;

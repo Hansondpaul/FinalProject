@@ -11,10 +11,10 @@ public class Coin implements Placeable // replace placeable with block if you ar
   public boolean getReveal() {return revealed;}
   public int getOrder() {return order;}
   public boolean getLevelEnd() {return false;}
-  public Coin(PVector firstLocation, int porder)
+  public Coin(PVector firstLocation, int order)
   {
     location = firstLocation;
-    order = porder;
+    order = this.order;
     revealed = true;
     size = new PVector(50,50);
   }
