@@ -12,7 +12,7 @@ import java.io.IOException;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
 ArrayList<ArrayList<Tile>> tiles;
-int colCount=20, rowCount=20, selected = 1;
+int colCount=20, rowCount=12, selected = 1;
 float tileWidth=40, tileHeight=40;
 boolean bucketFill=false, colUp=false, colDown=false, rowUp=false, rowDown=false, mac=false;//Mac when false is for PC paths, true is for Mac usb paths
 PrintWriter output;
@@ -110,7 +110,12 @@ void showButtons(){//displays the buttons to interact with changing the map sett
   fill(32, 100, 210);
   rect(width-75, 394, 38, 38);
   text("=B",width-33,414);
-
+  fill(120, 40, 210);
+  rect(width-75, 442, 38, 38); 
+  text("=C",width-33,462);
+  fill(224, 28, 206);
+  rect(width-75, 490, 38, 38); 
+  text("=E",width-33,510);
 }
 
 boolean button(float x, float y, float w, float h){
